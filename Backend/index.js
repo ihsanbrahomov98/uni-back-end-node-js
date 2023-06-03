@@ -32,11 +32,10 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/back/hotels", hotelsRouting);
-app.use("/back/authroute", authRouting);
+app.use("/auth", authRouting);
 app.use("/back/profile", profileRouting);
-app.use("/back/product", productRoute);
 app.use("/back/stripe", stripeRouting);
-app.use("/back/mock", mockDataRuoting);
+app.use("/products", mockDataRuoting);
 
 app.listen(process.env.PORT || 5550, () => {
   connect();

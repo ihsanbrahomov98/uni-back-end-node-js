@@ -13,7 +13,8 @@ router.get("/api/findall", async (req, res) => {
 });
 
 // create one
-router.post("/api/create", async (req, res) => {
+router.post("/create", async (req, res) => {
+  console.log(req);
   const product = new Product(req.body);
   try {
     const savedProduct = await product.save();

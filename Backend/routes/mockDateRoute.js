@@ -3,7 +3,7 @@ import Product from "../models/Product.js";
 const router = express.Router();
 
 // find all
-router.get("/api/findall", async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
     const product = await Product.find();
     res.status(200).json(product);
@@ -24,7 +24,7 @@ router.post("/create", async (req, res) => {
   }
 });
 //delete all
-router.delete("/api/delete", async (req, res) => {
+router.delete("/delete", async (req, res) => {
   await Product.remove({});
   try {
     res.status(200).json("allgone");
@@ -83,11 +83,11 @@ router.delete("/api/deleteone", async (req, res) => {
 });
 // find by category
 
-router.get("/api/findallcat/:id", async (req, res) => {
+router.get("/category/:cat", async (req, res) => {
   console.log("vatre");
-  console.log(req.params.id);
+  console.log(req.params.cat);
   try {
-    const product = await Product.find({ category: req.params.id });
+    const product = await Product.find({ category: req.params.cat });
     res.status(200).json(product);
   } catch (error) {
     res.status(500).send(error);

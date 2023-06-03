@@ -1,19 +1,19 @@
-import Customer from '../models/Customer.js';
-import express from 'express';
-import CryptoJS from 'crypto-js';
-import jwt from 'jsonwebtoken';
+import { User } from "../models/User.js";
+import express from "express";
+import CryptoJS from "crypto-js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-router.post('/register', async (req, res) => {
-  const newUser = new Customer({
+router.post("/auth/user/register", async (req, res) => {
+  console.log(req.body);
+  const newUser = new User({
     username: req.body.username,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
       process.env.SECRET
     ).toString(),
-    isAdmin: req.body.isAdmin,
   });
   try {
     const savedUser = await newUser.save();
@@ -22,10 +22,11 @@ router.post('/register', async (req, res) => {
     res.status(500);
   }
 });
-router.post('/login', async (req, res) => {
+
+router.post("/login", async (req, res) => {
   try {
-    const user = await Customer.findOne({ username: req.body.username });
-    !user && res.status(401).json('greshna parola ili ime');
+    const user = await User.findOne({ username: req.body.username });
+    !user && res.status(401).json("greshna parola ili ime");
 
     const hashedPassoword = CryptoJS.AES.decrypt(
       user.password,
@@ -33,7 +34,7 @@ router.post('/login', async (req, res) => {
     );
     const originalPassword = hashedPassoword.toString(CryptoJS.enc.Utf8);
     originalPassword !== req.body.password &&
-      res.status(404).json('greshna parola ili ime');
+      res.status(404).json("greshna parola ili ime");
 
     const accessToken = jwt.sign(
       {
@@ -41,7 +42,7 @@ router.post('/login', async (req, res) => {
         isAdmin: Customer.isAdmin,
       },
       process.env.JWTSECRET,
-      { expiresIn: '10d' }
+      { expiresIn: "10d" }
     );
 
     const { isAdmin, password, ...other } = user._doc;

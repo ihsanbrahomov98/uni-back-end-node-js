@@ -8,6 +8,7 @@ import profileRouting from "./routes/profile.js";
 import productRoute from "./routes/productRoute.js";
 import stripeRouting from "./routes/StriepRoute.js";
 import mockDataRuoting from "./routes/mockDateRoute.js";
+import reviewRouting from "./routes/reviewRoute.js";
 import cors from "cors";
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(express.json());
 
 app.use("/back/hotels", hotelsRouting);
 app.use("/auth", authRouting);
+app.use("/review", reviewRouting);
 app.use("/back/profile", profileRouting);
 app.use("/back/stripe", stripeRouting);
 app.use("/products", mockDataRuoting);

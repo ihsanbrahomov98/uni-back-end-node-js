@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
     },
+    rating: {
+      type: String,
+      default: 5,
+    },
   },
 
   { timestamps: true }

@@ -1,8 +1,9 @@
 import express from "express";
 import Product from "../models/Product.js";
+import Review from "../models/Review.js";
 const router = express.Router();
 
-// find all
+// find all products
 router.get("/all", async (req, res) => {
   try {
     const product = await Product.find();
@@ -12,9 +13,8 @@ router.get("/all", async (req, res) => {
   }
 });
 
-// create one
+// create one product
 router.post("/create", async (req, res) => {
-  console.log(req);
   const product = new Product(req.body);
   try {
     const savedProduct = await product.save();
@@ -23,17 +23,19 @@ router.post("/create", async (req, res) => {
     res.status(500).send(error);
   }
 });
-//delete all
-router.delete("/delete", async (req, res) => {
+
+//delete all products
+router.delete("/delete/all", async (req, res) => {
   await Product.remove({});
   try {
-    res.status(200).json("allgone");
+    res.status(200).json("all deleted");
   } catch (error) {
     res.status(500).send(error);
   }
 });
-//find by id
-router.get("/api/findone/:id", async (req, res) => {
+
+//find one product by id
+router.get("/findone/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     res.status(200).send(product);
@@ -41,22 +43,9 @@ router.get("/api/findone/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
-//find many by cat
-router.get("/api/findone/:id", async (req, res) => {
-  try {
-    const product = await Product.find();
-    const filteredItems = product.filter(
-      (item) => item.category === req.params.id
-    );
-    console.log(filteredItems);
-    res.status(200).send(filteredItems);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-//updateone
-router.put("/api/update", async (req, res) => {
-  console.log(req.body);
+
+//update one product
+router.put("/update", async (req, res) => {
   try {
     const updatedProduct = await Product.findOneAndUpdate(
       { name: req.body.name },
@@ -69,11 +58,12 @@ router.put("/api/update", async (req, res) => {
     res.status(500).send(error);
   }
 });
-//deleteone
-router.delete("/api/deleteone", async (req, res) => {
+
+//delete one product
+router.delete("/delete", async (req, res) => {
   try {
     const deleteOne = await Product.findOneAndDelete({
-      userId: req.body.userId,
+      userId: req.body.id,
     });
 
     res.status(200).send(deleteOne);
@@ -81,11 +71,9 @@ router.delete("/api/deleteone", async (req, res) => {
     res.status(500).send(error);
   }
 });
-// find by category
 
+// find all products by category
 router.get("/category/:cat", async (req, res) => {
-  console.log("vatre");
-  console.log(req.params.cat);
   try {
     const product = await Product.find({ category: req.params.cat });
     res.status(200).json(product);

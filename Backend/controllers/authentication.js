@@ -5,6 +5,18 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
+/**
+ * @openapi
+ * /healthcheck:
+ *  get:
+ *     tags:
+ *     - Healthcheck
+ *     description: Responds if the app is up and running
+ *     responses:
+ *       200:
+ *         description: App is up and running
+ */
+
 router.post("/register", async (req, res) => {
   const newUser = new User({
     username: req.body.username,
@@ -14,7 +26,6 @@ router.post("/register", async (req, res) => {
       process.env.SECRET
     ).toString(),
   });
-  console.log(newUser.username);
   try {
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);

@@ -1,20 +1,37 @@
 import User from "../models/User.js";
 import express from "express";
 import CryptoJS from "crypto-js";
-import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
 /**
  * @openapi
- * /healthcheck:
- *  get:
+ * /register:
+ *  post:
  *     tags:
- *     - Healthcheck
- *     description: Responds if the app is up and running
+ *     - authentication controller
+ *     description: register user
  *     responses:
  *       200:
- *         description: App is up and running
+ *         description: user is registered
+ *       500:
+ *         description: server error while registering an user
+ */
+
+/**
+ * @openapi
+ * /login:
+ *  post:
+ *     tags:
+ *     - authentication controller
+ *     description: login user
+ *     responses:
+ *       200:
+ *         description: user is logged in
+ *       401:
+ *         description: wrong password or username
+ *       500:
+ *         description: server error while login
  */
 
 router.post("/register", async (req, res) => {
@@ -28,16 +45,16 @@ router.post("/register", async (req, res) => {
   });
   try {
     const savedUser = await newUser.save();
-    res.status(200).json(savedUser);
+    res.status(200).json("user is registered");
   } catch (error) {
-    res.status(500);
+    res.status(500).json("error while registering an user");
   }
 });
 
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-    !user && res.status(401).json("wrong password or username");
+    !user && res.status(404).json("wrong password or username");
     const hashedPassoword = CryptoJS.AES.decrypt(
       user.password,
       process.env.SECRET

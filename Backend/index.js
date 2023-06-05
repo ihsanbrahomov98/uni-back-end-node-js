@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import productController from "./controllers/product.js";
 import reviewController from "./controllers/review.js";
 import authenticationController from "./controllers/authentication.js";
-
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
@@ -39,7 +38,7 @@ const options = {
   definition: {
     swagger: "2.0",
     info: {
-      title: "LogRocket Express API with Swagger",
+      title: "Nodejs Express API with Swagger for Ihsan Brahomov Online Shop",
       version: "0.1.0",
       description:
         "This is a simple CRUD API application made with Express and documented with Swagger",
@@ -48,9 +47,9 @@ const options = {
         url: "https://spdx.org/licenses/MIT.html",
       },
       contact: {
-        name: "LogRocket",
-        url: "https://logrocket.com",
-        email: "info@email.com",
+        name: "Ihsan Brahomov",
+        url: "https://ihsanbrahomov.com",
+        email: "ihsanbrahomov@gmail.com",
       },
     },
     servers: [

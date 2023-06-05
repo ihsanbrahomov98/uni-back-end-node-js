@@ -13,7 +13,7 @@ const reviewSchema = new mongoose.Schema({
   },
   reviewText: {
     type: String,
-    default: "Добър продукт!",
+    required: true,
   },
   rating: {
     type: Number,
